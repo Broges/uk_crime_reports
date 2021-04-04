@@ -10,7 +10,7 @@ import sys
 def getLocalForces():
     url = 'https://data.police.uk/api/forces'
     try:
-        all_forces_raw = requests.get(url)
+        all_forces_raw = requests.get(url)  
         all_forces = all_forces_raw.json()
         for entry in all_forces:
             print(f"FORCE ID: {entry['id']} ")
@@ -18,14 +18,14 @@ def getLocalForces():
         return input_force_id
     except Exception as e:
         print(f'Error occured when getting forces <{e}>')
-        sys.exit(1)
+        sys.exit(1) #terminates program
     
 
 def getLocalArea(force):
     try:
         local_neighbourhoods_raw = requests.get(f'https://data.police.uk/api/{force}/neighbourhoods')
         local_neighbourhoods = local_neighbourhoods_raw.json()
-        for entry in local_neighbourhoods:
+        for entry in local_neighbourhoods: #iterates through json file
             print(f"AREA: {entry['name']} CODE: {entry['id']}")
         input_area_code = input('What is your area code?: ')
         return input_area_code
@@ -61,8 +61,8 @@ def getNeighbourhoodCrimeAPI(force, area_code, date):
         count = 0
         for entry in neighbourhood_coords:
             if count % 10 == 0:  #URL too long for server, therefore we only append every tenth coordinate to the URL
-                url_template = url_template + f"{entry['latitude']},"
-                url_template = url_template + f"{entry['longitude']}:"
+                url_template = url_template + f"{entry['latitude']}," #url has param for custom area with latitude and longitude
+                url_template = url_template + f"{entry['longitude']}:" #we append these as coordinates to remap the local area to search for crimes
                 count = count + 1
             else:
                 count = count + 1
