@@ -60,7 +60,7 @@ def getNeighbourhoodCrimeAPI(force, area_code, date):
 
         count = 0
         for entry in neighbourhood_coords:
-            if count % 10 == 0:  #URL too long for server, therefore we only append every tenth coordinate to the URL
+            if count % 12 == 0:  #URL too long for server, therefore we only append every tenth coordinate to the URL
                 url_template = url_template + f"{entry['latitude']}," #url has param for custom area with latitude and longitude
                 url_template = url_template + f"{entry['longitude']}:" #we append these as coordinates to remap the local area to search for crimes
                 count = count + 1
@@ -93,7 +93,6 @@ def createMonthlyCrimesReport(crimes_json, area_code, date):
         print(f'Crime_reports\\{area_code}_crime_{date[6:]}.txt successfully created!')
     except Exception as e:
         print(f'Error occured generating report <{e}>')
-        end
 
 if __name__ == '__main__':
     force = getLocalForces()
@@ -105,7 +104,7 @@ if __name__ == '__main__':
 
 # q=requests.get('https://data.police.uk/api/crimes-at-location?date=2019-02&lat=52.6389&lng=-1.13619')
 # print(q.status_code)
-# test = q.json()
+# test = q.json()w
 # print(len(test))
 
 #BW021 -- selly oak
