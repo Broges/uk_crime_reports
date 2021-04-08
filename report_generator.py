@@ -6,6 +6,7 @@ and creates subdirectory where the record is downloaded to User's PC
 import requests
 import json
 import sys
+import os
 
 def getLocalForces():
     url = 'https://data.police.uk/api/forces'
@@ -101,12 +102,32 @@ def createMonthlyCrimesReport(crimes_json, area_code, date):
         print(f'Error occured generating report <{e}>')
         sys.exit(1)
 
+def checkForReportFolder():
+    path = os.getcwd()
+    folderPath = path+'\Crime_reports'
+    isDirectory = os.path.isdir(folderPath)
+    if isDirectory is False:
+        createReportFolder()
+    else:
+        return
+
+def createReportFolder():
+    path = os.getcwd()
+    folderPath = path+'\Crime_reports'
+    try:
+        os.mkdir(folderPath)
+    except OSError:
+        print (f"Creation of the directory {folderPath} failed")
+    else:
+        print (f"Successfully created the directory {folderPath} ")
+
 if __name__ == '__main__':
     force = getLocalForces()
     area_code = getLocalArea(force)
     date = getDate()
     concat_API = getNeighbourhoodCrimeAPI(force, area_code, date)
     all_crimes = getLocalCrimes(concat_API, date)
+    checkForReportFolder()
     createMonthlyCrimesReport(all_crimes, area_code, date)
 
 # q=requests.get('https://data.police.uk/api/crimes-at-location?date=2019-02&lat=52.6389&lng=-1.13619')
