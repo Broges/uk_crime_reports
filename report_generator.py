@@ -129,14 +129,3 @@ if __name__ == '__main__':
     all_crimes = getLocalCrimes(concat_API, date)
     checkForReportFolder()
     createMonthlyCrimesReport(all_crimes, area_code, date)
-
-# q=requests.get('https://data.police.uk/api/crimes-at-location?date=2019-02&lat=52.6389&lng=-1.13619')
-# print(q.status_code)
-# test = q.json()w
-# print(len(test))
-
-#BW021 -- selly oak
-#id': 'west-midlands', 'name': 'West Midlands Police'}
-
-#"latitude": "52.6389",
-#"longitude": "-1.13619"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
