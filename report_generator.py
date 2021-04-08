@@ -14,7 +14,7 @@ def getLocalForces():
         all_forces = all_forces_raw.json()
         for entry in all_forces:
             print(f"FORCE ID: {entry['id']} ")
-        input_force_id = input('What is your force?: ')
+        input_force_id = input('What is your force?: ').lower()
         return input_force_id
     except Exception as e:
         print(f'Error occured when getting forces <{e}>')
@@ -27,10 +27,11 @@ def getLocalArea(force):
         local_neighbourhoods = local_neighbourhoods_raw.json()
         for entry in local_neighbourhoods: #iterates through json file
             print(f"AREA: {entry['name']} CODE: {entry['id']}")
-        input_area_code = input('What is your area code?: ')
+        input_area_code = input('What is your area code?: ').upper()
         return input_area_code
     except Exception as e:
         print(f'Error occured when getting neighbourhoods <{e}>')
+        sys.exit(1)
 
 def getDate():
     print('EARLIEST DATA IS 2018-03, LEAVE BLANK FOR MOST RECENT DATA')
@@ -40,6 +41,9 @@ def getDate():
         concat_date = f'&date={date}'
     else:
         concat_date = f'&date={input_date}'
+    if len(input_date) != 7:
+        print('incorrect date format, aborting...')
+        sys.exit(1)
     return concat_date
         # date = '&date=2021-02'
 
@@ -71,6 +75,7 @@ def getNeighbourhoodCrimeAPI(force, area_code, date):
         return final_api
     except Exception as e:
         print(f'Error occured when getting neighbourhood crime API <{e}>')
+        sys.exit(1)
 
 def getLocalCrimes(API, date):
     try:
@@ -84,6 +89,7 @@ def getLocalCrimes(API, date):
             return
     except Exception as e:
         print(f'Error occured sending POST request <{e}>')
+        sys.exit(1)
 
 def createMonthlyCrimesReport(crimes_json, area_code, date):
     try:
@@ -93,6 +99,7 @@ def createMonthlyCrimesReport(crimes_json, area_code, date):
         print(f'Crime_reports\\{area_code}_crime_{date[6:]}.txt successfully created!')
     except Exception as e:
         print(f'Error occured generating report <{e}>')
+        sys.exit(1)
 
 if __name__ == '__main__':
     force = getLocalForces()
