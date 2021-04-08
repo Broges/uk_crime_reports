@@ -42,7 +42,7 @@ def getDate():
         concat_date = f'&date={date}'
     else:
         concat_date = f'&date={input_date}'
-    if len(input_date) != 7:
+    if len(input_date) != 7 and len(input_date) != 0:
         print('incorrect date format, aborting...')
         sys.exit(1)
     return concat_date
